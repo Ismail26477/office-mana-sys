@@ -127,7 +127,7 @@ const Sheet = () => {
   const handleApproveTask = async (taskId: string) => {
     try {
       setApprovalLoading(true)
-      const response = await fetch(`http://localhost:5000/api/daily-tasks/${taskId}`, {
+      const response = await fetch(`/api/daily-tasks/${taskId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -172,7 +172,7 @@ const Sheet = () => {
   const handleRejectTask = async (taskId: string) => {
     try {
       setApprovalLoading(true)
-      const response = await fetch(`http://localhost:5000/api/daily-tasks/${taskId}`, {
+      const response = await fetch(`/api/daily-tasks/${taskId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

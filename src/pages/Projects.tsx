@@ -60,7 +60,7 @@ const Projects = () => {
 
   const handleCreateProject = async (projectData: any) => {
     try {
-      const response = await fetch("http://localhost:5000/api/projects", {
+      const response = await fetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(projectData),
@@ -76,7 +76,7 @@ const Projects = () => {
 
   const handleUpdateTeam = async (projectId: string, team: any[]) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/projects/${projectId}`, {
+      const response = await fetch(`/api/projects/${projectId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ team }),

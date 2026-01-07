@@ -91,11 +91,11 @@ const Tasks = () => {
       try {
         setLoading(true)
         // Fetch tasks
-        const tasksResponse = await fetch("http://localhost:5000/api/tasks")
+        const tasksResponse = await fetch("/api/tasks")
         const tasksData = await tasksResponse.json()
 
         // Fetch employees
-        const employeesResponse = await fetch("http://localhost:5000/api/employees")
+        const employeesResponse = await fetch("/api/employees")
         const employeesData = await employeesResponse.json()
         setEmployees(employeesData)
 
@@ -142,7 +142,7 @@ const Tasks = () => {
     try {
       if (editingTask && editingTask._id) {
         // Update existing task
-        const response = await fetch(`http://localhost:5000/api/tasks/${editingTask._id}`, {
+        const response = await fetch(`/api/tasks/${editingTask._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(taskPayload),
@@ -159,7 +159,7 @@ const Tasks = () => {
         })
       } else {
         // Create new task
-        const response = await fetch("http://localhost:5000/api/tasks", {
+        const response = await fetch("/api/tasks", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(taskPayload),
@@ -187,7 +187,7 @@ const Tasks = () => {
     if (!confirm("Are you sure you want to delete this task?")) return
 
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+      const response = await fetch(`/api/tasks/${task._id}`, {
         method: "DELETE",
       })
       if (!response.ok) throw new Error("Failed to delete task")
@@ -241,7 +241,7 @@ const Tasks = () => {
 
     // Update database
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+      const response = await fetch(`/api/tasks/${task._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: targetColumn }),
@@ -261,7 +261,7 @@ const Tasks = () => {
 
   const loadTasks = async () => {
     try {
-      const tasksResponse = await fetch("http://localhost:5000/api/tasks")
+      const tasksResponse = await fetch("/api/tasks")
       const tasksData = await tasksResponse.json()
       const groupedTasks = {
         todo: tasksData.filter((t: TaskData) => t.status === "todo"),
