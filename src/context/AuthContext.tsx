@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const login = async (email: string, password: string) => {
-    const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+    const API_BASE_URL = import.meta.env.VITE_API_URL || "/api"
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
