@@ -1,8 +1,8 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { connectDB } from "./db"
+// Use standard Node.js Request/Response types instead
+import { connectDB } from "./db.js"
 import bcrypt from "bcryptjs"
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" })
   }
@@ -28,9 +28,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const { password: _, ...userWithoutPassword } = user
-    res.json(userWithoutPassword)
-  } catch (error: any) {
-    console.error("Error during login:", error)
-    res.status(500).json({ error: error.message })
+
+    res.status(200).json({ success: true, user: userWithoutPassword })
+  } catch (error) {
+    console.error("Login error:", error)
+    res.status(500).json({ error: "Internal server error" })
   }
 }

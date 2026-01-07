@@ -1,7 +1,6 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { connectDB } from "./db"
+import { connectDB } from "./db.js"
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   try {
     const db = await connectDB()
     res.json({

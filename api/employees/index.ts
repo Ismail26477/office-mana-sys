@@ -1,16 +1,25 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { connectDB } from "../db"
+import { connectDB, ObjectId } from "../db.js"
 import bcrypt from "bcryptjs"
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   try {
     const db = await connectDB()
+    const { id } = req.query
 
+    // Handle GET for single employee or all employees
     if (req.method === "GET") {
+      if (id) {
+        const employee = await db.collection("users").findOne({ _id: new ObjectId(String(id)) })
+        if (!employee) {
+          return res.status(404).json({ error: "Employee not found" })
+        }
+        return res.json(employee)
+      }
       const employees = await db.collection("users").find({}).toArray()
       return res.json(employees)
     }
 
+    // Handle POST to create new employee
     if (req.method === "POST") {
       const employeeData = {
         ...req.body,
@@ -18,9 +27,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         createdAt: new Date(),
         updatedAt: new Date(),
       }
-
       const result = await db.collection("users").insertOne(employeeData)
       return res.json({ _id: result.insertedId, ...employeeData })
+    }
+
+    // Handle PUT to update employee
+    if (req.method === "PUT" && id) {
+      const result = await db.collection("users").updateOne({ _id: new ObjectId(String(id)) }, { $set: req.body })
+      return res.json({ _id: id, ...req.body })
+    }
+
+    // Handle DELETE to remove employee
+    if (req.method === "DELETE" && id) {
+      await db.collection("users").deleteOne({ _id: new ObjectId(String(id)) })
+      return res.json({ message: "Employee deleted" })
     }
 
     res.status(405).json({ error: "Method not allowed" })
