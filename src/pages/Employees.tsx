@@ -41,7 +41,6 @@ const handleAddEmployee = async (e: React.FormEvent) => {
   e.preventDefault()
   // Implementation for adding employee
 }
-const filteredEmployees = [] // Placeholder for filtered employees logic
 const statusStyles = {
   active: "bg-green-100 text-green-800",
   on_leave: "bg-yellow-100 text-yellow-800",
@@ -224,6 +223,14 @@ const Employees = () => {
     })
     setIsEditDialogOpen(true)
   }
+
+  const filteredEmployees = employees.filter((employee) => {
+    const matchesSearch =
+      employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      employee.email.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesDepartment = departmentFilter === "all" || employee.department === departmentFilter
+    return matchesSearch && matchesDepartment
+  })
 
   if (loading) {
     return <div className="flex items-center justify-center h-96">Loading employees...</div>
