@@ -51,14 +51,14 @@ export function Sidebar({ collapsed, onToggle, mobileMenuOpen, onMobileMenuClose
 
       <aside
         className={cn(
-          "sticky top-0 left-0 z-40 h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col",
+          "fixed lg:sticky top-0 left-0 z-40 lg:z-auto h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col",
           "lg:h-screen lg:overflow-y-auto",
           mobileMenuOpen ? "translate-x-0 w-64" : "-translate-x-full w-64 lg:translate-x-0",
           collapsed ? "lg:w-20" : "lg:w-64",
         )}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border flex-shrink-0">
           <div className={cn("flex items-center gap-3", collapsed && !mobileMenuOpen && "justify-center w-full")}>
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
               <span className="text-primary-foreground font-bold text-lg">V</span>
@@ -116,7 +116,10 @@ export function Sidebar({ collapsed, onToggle, mobileMenuOpen, onMobileMenuClose
 
         {/* User Profile */}
         <div
-          className={cn("p-4 border-t border-sidebar-border", collapsed && !mobileMenuOpen && "flex justify-center")}
+          className={cn(
+            "p-4 border-t border-sidebar-border flex-shrink-0",
+            collapsed && !mobileMenuOpen && "flex justify-center",
+          )}
         >
           {collapsed && !mobileMenuOpen ? (
             <Avatar className="h-10 w-10 cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all">
