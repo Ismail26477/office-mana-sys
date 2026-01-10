@@ -169,14 +169,7 @@ const Employees = () => {
     }
   }
 
-  const handleChangePassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!passwordData.newPassword || !passwordData.confirmPassword) {
-      alert("Please fill in all password fields")
-      return
-    }
-
+  const handlePasswordChange = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       alert("Passwords do not match")
       return
@@ -188,7 +181,6 @@ const Employees = () => {
     }
 
     setIsSubmitting(true)
-
     try {
       const result = await changePassword(selectedEmployee?._id || "", passwordData.newPassword)
 
@@ -200,10 +192,12 @@ const Employees = () => {
           newPassword: "",
           confirmPassword: "",
         })
+      } else {
+        alert("Failed to change password")
       }
     } catch (error) {
-      console.error("Failed to change password:", error)
-      alert("Failed to change password. Please try again.")
+      console.error("Error changing password:", error)
+      alert("Error changing password")
     } finally {
       setIsSubmitting(false)
     }
@@ -604,7 +598,7 @@ const Employees = () => {
                             </DialogTitle>
                             <DialogDescription>Update password for {selectedEmployee?.name}</DialogDescription>
                           </DialogHeader>
-                          <form onSubmit={handleChangePassword} className="grid gap-4 py-4">
+                          <form onSubmit={handlePasswordChange} className="grid gap-4 py-4">
                             <div className="space-y-2">
                               <Label htmlFor="newPassword" className="required">
                                 New Password <span className="text-red-500">*</span>
