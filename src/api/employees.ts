@@ -37,6 +37,49 @@ export async function createEmployee(employeeData: any): Promise<any> {
   }
 }
 
+export async function updateEmployee(id: string, employeeData: any): Promise<any> {
+  try {
+    const response = await fetch(`${API_URL}/employees/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(employeeData),
+    })
+    if (!response.ok) throw new Error("Failed to update employee")
+    return await response.json()
+  } catch (error) {
+    console.error("Error updating employee:", error)
+    return null
+  }
+}
+
+export async function deleteEmployee(id: string): Promise<any> {
+  try {
+    const response = await fetch(`${API_URL}/employees/${id}`, {
+      method: "DELETE",
+    })
+    if (!response.ok) throw new Error("Failed to delete employee")
+    return await response.json()
+  } catch (error) {
+    console.error("Error deleting employee:", error)
+    return null
+  }
+}
+
+export async function changePassword(id: string, newPassword: string): Promise<any> {
+  try {
+    const response = await fetch(`${API_URL}/employees/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: newPassword }),
+    })
+    if (!response.ok) throw new Error("Failed to change password")
+    return await response.json()
+  } catch (error) {
+    console.error("Error changing password:", error)
+    return null
+  }
+}
+
 export async function fetchEmployeeStats(): Promise<any> {
   try {
     const response = await fetch(`${API_URL}/employees/stats`)
