@@ -33,8 +33,20 @@ export default async function handler(req: any, res: any) {
 
     // Handle PUT to update employee
     if (req.method === "PUT" && id) {
-      const result = await db.collection("users").updateOne({ _id: new ObjectId(String(id)) }, { $set: req.body })
-      return res.json({ _id: id, ...req.body })
+      const updateData = { ...req.body }
+
+      if (updateData.password) {
+        updateData.password = await bcrypt.hash(updateData.password, 10)
+      }
+
+      updateData.updatedAt = new Date()
+      const result = await db.collection("users").updateOne({ _id: new ObjectId(String(id)) }, { $set: updateData })
+
+      if (result.matchedCount === 0) {
+        return res.status(404).json({ error: "Employee not found" })
+      }
+
+      return res.json({ _id: id, ...updateData })
     }
 
     // Handle DELETE to remove employee
